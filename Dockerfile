@@ -55,6 +55,12 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends openssh-server \
     && echo "$SSH_PASSWD" | chpasswd
 
+COPY sshd_config /etc/ssh/
+COPY ./init_container.sh /bin/init_container.sh
+RUN chmod 775 /bin/init_container.sh
+RUN mkdir /etc/nginx/ssl
+RUN openssl dhparam -out /etc/nginx/ssl/dhparams.pem 2048
+
 # Creating folders for the project
 RUN mkdir -p /home/LogFiles/ \
     && echo "cd /var/www/" >> /etc/bash.bashrc \
