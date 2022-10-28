@@ -12,7 +12,7 @@ cat >/etc/motd <<EOL
 /    |    \/    /|  |  /|  | \/\  ___/ 
 \____|__  /_____ \____/ |__|    \___  >
         \/      \/                  \/ 
-SI REGULACAO   -   APP SERVICE ON LINUX
+LARAVEL WEBHOOKS   -   APP SERVICE ON LINUX
 
 PHP version : `php -v | head -n 1 | cut -d ' ' -f 2`
 EOL
@@ -66,18 +66,10 @@ if [ -f "$containerPath/.env" ]; then
   ln -sfn $containerPath/.env $appPath/.env
   echo "Generate key in .env file"
   php artisan key:generate
-  echo "Populate database with cities and states data"
-  php artisan ibge:import-states-cities
 fi
 
 echo "storage link"
 php artisan storage:link
-
-echo "verify if exist new migrations"
-php artisan migrate --force
-
-echo "verify if exist new seeders"
-php artisan db:seed --force
 
 echo "artisan config clear"
 php artisan config:clear
