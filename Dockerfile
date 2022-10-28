@@ -48,10 +48,16 @@ RUN apt autoremove -y
 # Download Composer Files
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Configure SSH
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends dialog \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends openssh-server \
+    && echo "$SSH_PASSWD" | chpasswd
+
 # Creating folders for the project
 RUN mkdir -p /home/LogFiles/ \
     && echo "cd /var/www/" >> /etc/bash.bashrc \
-    && mkdir -p /var/www/public/tempzip \
     && rm -rf /var/www/html
 
 COPY sshd_config /etc/ssh/
