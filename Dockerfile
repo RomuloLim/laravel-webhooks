@@ -48,17 +48,6 @@ RUN apt autoremove -y
 # Download Composer Files
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Install NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt-get install -y nodejs
-
-# Configure SSH
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends dialog \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends openssh-server \
-    && echo "$SSH_PASSWD" | chpasswd
-
 # Creating folders for the project
 RUN mkdir -p /home/LogFiles/ \
     && echo "cd /var/www/" >> /etc/bash.bashrc \
@@ -92,15 +81,6 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # Publish telescope assets
 RUN php artisan vendor:publish --tag=telescope-assets --force
-
-# Install npm packages
-RUN npm install
-
-# Uptade npm
-RUN npm install -g npm
-
-# Running npm build
-RUN npm run production
 
 EXPOSE 80 443
 
