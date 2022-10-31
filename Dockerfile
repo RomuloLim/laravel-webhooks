@@ -50,10 +50,10 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Configure SSH
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends dialog \
-  && apt-get update \
-  && apt-get install -y --no-install-recommends openssh-server \
-  && echo "$SSH_PASSWD" | chpasswd
+    && apt-get install -y --no-install-recommends dialog \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends openssh-server \
+    && echo "$SSH_PASSWD" | chpasswd
 
 COPY sshd_config /etc/ssh/
 COPY ./init_container.sh /bin/init_container.sh
@@ -61,19 +61,14 @@ RUN chmod 775 /bin/init_container.sh
 RUN mkdir /etc/nginx/ssl
 RUN openssl dhparam -out /etc/nginx/ssl/dhparams.pem 2048
 
-
-
 # Creating folders for the project
 RUN mkdir -p /home/LogFiles/ \
     && echo "cd /var/www/" >> /etc/bash.bashrc \
-    && mkdir -p /var/www/public/tempzip \
     && rm -rf /var/www/html
 
 COPY sshd_config /etc/ssh/
 COPY ./init_container.sh /bin/init_container.sh
 RUN chmod 775 /bin/init_container.sh
-RUN mkdir /etc/nginx/ssl
-RUN openssl dhparam -out /etc/nginx/ssl/dhparams.pem 2048
 
 # Copy existing application directory content
 COPY . /var/www
