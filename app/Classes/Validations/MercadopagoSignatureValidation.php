@@ -11,6 +11,8 @@ class MercadopagoSignatureValidation implements SignatureValidator
     public function isValid(Request $request, WebhookConfig $config): bool
     {
         if (!$request->application_id || !$request->user_id) {
+            logger('error in signature validation - missing application_id or user_id');
+            logger($request->all());
             return false;
         }
 
