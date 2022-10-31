@@ -69,8 +69,6 @@ RUN mkdir -p /home/LogFiles/ \
 COPY sshd_config /etc/ssh/
 COPY ./init_container.sh /bin/init_container.sh
 RUN chmod 775 /bin/init_container.sh
-RUN mkdir /etc/nginx/ssl
-RUN openssl dhparam -out /etc/nginx/ssl/dhparams.pem 2048
 
 # Copy existing application directory content
 COPY . /var/www
