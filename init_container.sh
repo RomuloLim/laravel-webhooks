@@ -77,11 +77,6 @@ php artisan config:clear
 echo "artisan optimize clear"
 php artisan optimize:clear
 
-echo "Configuring SSL to Nginx"
-
-echo "Copying SSL from Azure"
-cp /var/ssl/private/*.p12 /etc/nginx/ssl/ssl.p12
-
 echo "Starting services..."
 
 echo "Starting SSH server"
