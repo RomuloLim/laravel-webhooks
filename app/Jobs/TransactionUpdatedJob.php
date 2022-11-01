@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Arr;
 use Spatie\WebhookClient\Jobs\ProcessWebhookJob;
 
 class TransactionUpdatedJob extends ProcessWebhookJob
@@ -29,6 +30,6 @@ class TransactionUpdatedJob extends ProcessWebhookJob
     public function handle()
     {
         TransactionUpdated::dispatch($this->data);
-        logger('wello Webhook: '.Carbon::now()->toDateTimeString(), $this->data);
+        logger('new Webhook message: '.Carbon::now()->toDateTimeString(), $this->data->toArray());
     }
 }
