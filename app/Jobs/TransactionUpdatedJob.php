@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\TransactionUpdated;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -27,6 +28,7 @@ class TransactionUpdatedJob extends ProcessWebhookJob
      */
     public function handle()
     {
-        logger('wello Webhook: '.Carbon::now()->toDateTimeString());
+        TransactionUpdated::dispatch($this->data);
+        logger('wello Webhook: '.Carbon::now()->toDateTimeString(), $this->data);
     }
 }
