@@ -17,7 +17,7 @@ class MercadopagoSignatureValidation implements SignatureValidator
         }
 
         $requestSecret = hash_hmac('sha256', $request->getContent(), $request->application_id . $request->user_id);
-
+        logger($requestSecret);
         $signingSecret = $config->signingSecret;
 
         if (empty($signingSecret)) {
